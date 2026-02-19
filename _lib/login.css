@@ -1,0 +1,180 @@
+
+:root {
+  --bg:#0f0f1a;
+  --panel:rgba(40,30,70,0.95);
+  /* --primary:#7d2cff;
+  --secondary:#b26eff; */
+  /* --accent:#c798ff; */
+  --text:#fff;
+  /* --danger:#ff4b4b; */
+
+  --primary: #0ea5e9;      /* Celeste Sky (Elegante) */
+  --secondary: #38bdf8;    /* Celeste brillante para interacciones */
+  --accent: #7dd3fc;       /* Celeste muy claro para bordes/detalles */
+  --danger: #ef4444;       /* Rojo corregido para esta paleta */
+
+  --link-color: rgba(255, 255, 255, 0.5); /* Blanco traslúcido para menos distracción */
+  --link-hover-color: var(--secondary);   /* Usamos tu nuevo celeste profesional */
+  --link-shadow-glow: var(--secondary);
+  --success: #059669; /* Verde esmeralda profesional para éxito */
+  --shadow-msg: 0 10px 25px -5px rgba(0, 0, 0, 0.4), 
+                0 8px 10px -6px rgba(0, 0, 0, 0.4);
+}
+
+body{
+  margin:0;
+  font-family:'Orbitron',system-ui;
+  background:radial-gradient(circle at top,#1d0d37,#0a011e);
+  display:flex; justify-content:center; align-items:center;
+  min-height:100vh; color:var(--text);
+}
+
+.login-card {
+    width: 100%;
+    max-width: 400px;
+    background: var(--panel);
+    border-radius: 20px;
+    padding: 40px 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    position: relative;
+    margin: 0px 10px;
+}
+
+.logo{
+  font-size:2rem; font-weight:700;
+  color:var(--secondary);
+  text-shadow:0 0 12px var(--secondary);
+  margin-bottom:20px;
+}
+.logo span{ color:var(--primary); text-shadow:0 0 12px var(--primary); }
+
+.input-group-custom{
+  position:relative;
+  margin-bottom:20px;
+}
+.input-group-custom i{
+  position:absolute;
+  left:15px; top:50%;
+  transform:translateY(-50%);
+  color:var(--primary);
+  font-size:16px;
+}
+.input-group-custom input{
+  width:100%;
+  padding:12px 12px 12px 40px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,0.2);
+  background-color:rgba(25,25,50,0.9);
+  color:var(--text);
+  font-weight:500;
+  outline:none;
+  transition:all 0.3s ease;
+}
+.input-group-custom input::placeholder{ color:rgba(255,255,255,0.6); }
+.input-group-custom input:focus{
+  border-color:var(--secondary);
+  box-shadow:0 0 10px var(--secondary);
+  background-color:rgba(25,25,50,1);
+}
+
+/* Botón Entrar - Ahora dinámico con celestes */
+.btn-neon {
+  background: linear-gradient(145deg, var(--secondary), var(--primary));
+  width: 100%;
+  padding: 20px 0;
+  font-weight: 700;
+  border: none;
+  border-radius: 12px 12px 12px 12px;
+  cursor: pointer;
+  color: #fff;
+  font-size: 16px;
+  
+  /* Sombra base usando la variable secundaria con opacidad */
+  box-shadow: 0 6px 0 rgba(56, 189, 248, 0.4), 
+              0 8px 20px rgba(56, 189, 248, 0.2);
+  
+  transition: all 0.3s ease;
+}
+
+.btn-neon:hover {
+  transform: translateY(-2px);
+  /* Brillo más intenso en hover */
+  box-shadow: 0 8px 0 rgba(56, 189, 248, 0.6), 
+              0 12px 25px rgba(56, 189, 248, 0.4);
+}
+
+.btn-neon:active {
+  transform: translateY(2px);
+  /* Sombra reducida al presionar */
+  box-shadow: 0 3px 0 rgba(56, 189, 248, 0.4), 
+              0 8px 15px rgba(56, 189, 248, 0.2);
+}
+
+/* Botón Crear Usuario - azul neón */
+.btn-crear {
+  display: inline-block;
+  width: auto;
+  background: none;
+  border: none;
+  padding: 5px 10px;
+  margin-top: 15px;
+  
+  color: var(--link-color);
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  
+  transition: all 0.3s ease;
+  position: relative;
+  outline: none;
+}
+
+/* Estado Hover: El texto brilla con el celeste profesional */
+.btn-crear:hover {
+  color: var(--link-hover-color);
+  text-shadow: 0 0 8px var(--link-shadow-glow), 
+               0 0 15px var(--link-shadow-glow);
+  transform: translateY(-1px);
+}
+
+/* Estado Active: Feedback visual de presión */
+.btn-crear:active {
+  transform: translateY(1px);
+  text-shadow: 0 0 5px var(--link-shadow-glow);
+  opacity: 0.8;
+}
+
+/* Mensaje flotante superior */
+.mensaje{
+  position:fixed; top:25px; left:50%;
+  transform:translateX(-50%) scale(0.95);
+  min-width:300px; max-width:90%;
+  padding:15px 25px; border-radius:14px;
+  font-weight:600; font-size:1rem;
+  text-align:center; color:#fff;
+
+  opacity:0; pointer-events:none;
+  z-index:9999; transition:all 0.4s ease;
+  animation:fadeInSlide 0.4s ease forwards;
+}
+.mensaje.exito{ background:linear-gradient(135deg,var(--secondary),var(--primary)); }
+.mensaje.error{ background:linear-gradient(135deg,#ff4b4b,#ff1744); }
+
+@keyframes fadeInSlide{
+  0%{ opacity:0; transform:translate(-50%, -10px) scale(0.95); }
+  100%{ opacity:1; transform:translate(-50%,0) scale(1); }
+}
+@keyframes fadeOut{
+  0%{ opacity:1; transform:translate(-50%,0) scale(1); }
+  100%{ opacity:0; transform:translate(-50%,-10px) scale(0.95); }
+}
+
+.toggle-pass{
+  position:absolute; right:10px; top:50%;
+  transform:translateY(-50%);
+  background:none; border:none; color:var(--primary);
+  font-size:1.2rem; cursor:pointer;
+}

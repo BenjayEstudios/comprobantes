@@ -1,0 +1,69 @@
+:root {
+  /* Usamos las mismas variables que en tu login para consistencia total */
+  --bg: #0f0f1a;
+  --panel: rgba(15, 23, 42, 0.95); /* Azul muy oscuro profundo */
+  --primary: #0ea5e9;    /* Celeste Sky */
+  --secondary: #38bdf8;  /* Celeste brillante */
+  --text: #fff;
+  --border: rgba(56, 189, 248, 0.2); /* Borde celeste suave */
+  --glow: var(--secondary);
+}
+
+body {
+  margin: 0;
+  padding-bottom: 90px; 
+  font-family: 'Orbitron', system-ui;
+  background: radial-gradient(circle at top, #1d0d37, #0a011e);
+  color: var(--text);
+}
+
+.bottom-menu {
+  position: fixed;
+  bottom: 0; left: 0;
+  width: 100%; height: 80px;
+  background: var(--panel);
+  border-top: 1px solid var(--border);
+  display: flex; justify-content: space-around; align-items: center;
+  backdrop-filter: blur(12px); /* Aumentado para mayor elegancia */
+  box-shadow: 0 -4px 25px rgba(14, 165, 233, 0.15);
+  border-radius: 20px 20px 0 0;
+  z-index: 1000;
+  transition: all 0.3s ease;
+}
+
+.bottom-menu a {
+  color: rgba(255, 255, 255, 0.5); /* Texto tenue por defecto */
+  text-decoration: none;
+  font-size: 2.2rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  padding: 8px 12px;
+  border-radius: 12px;
+}
+
+/* Estado Activo: Celeste Neón */
+.bottom-menu a.active {
+  color: var(--secondary);
+  text-shadow: 0 0 10px var(--glow), 0 0 20px var(--glow);
+  transform: translateY(-5px) scale(1.2);
+}
+
+/* Hover: Brillo sutil profesional */
+.bottom-menu a:hover {
+  color: var(--primary);
+  text-shadow: 0 0 8px var(--primary);
+  transform: translateY(-2px);
+}
+
+.bottom-menu a i {
+  transition: all 0.3s ease;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .bottom-menu { 
+    height: 75px; 
+    border-radius: 15px 15px 0 0; 
+  }
+  .bottom-menu a { font-size: 2.2rem; }
+}
