@@ -38,11 +38,6 @@ ROW_FORMAT = DYNAMIC;
 ALTER TABLE tbl_usuarios 
   ADD INDEX IX_supervisor(supervisor);
 
---
--- Create index `UK_tbl_usuarios_role` on table `tbl_usuarios`
---
-ALTER TABLE tbl_usuarios 
-  ADD UNIQUE INDEX UK_tbl_usuarios_role(role);
 
 --
 -- Create foreign key
@@ -67,7 +62,7 @@ CREATE TABLE tbl_menu (
   PRIMARY KEY (id)
 )
 ENGINE = INNODB,
-AUTO_INCREMENT = 4,
+AUTO_INCREMENT = 1,
 AVG_ROW_LENGTH = 16384,
 CHARACTER SET utf8mb4,
 COLLATE utf8mb4_general_ci,
@@ -76,6 +71,16 @@ ROW_FORMAT = DYNAMIC;
 --
 -- Create foreign key
 --
-ALTER TABLE tbl_menu 
-  ADD CONSTRAINT FK_role_access FOREIGN KEY (role_access)
-    REFERENCES tbl_usuarios(role) ON DELETE NO ACTION;
+
+
+--
+-- INSERTS USUARIOS
+-- 
+INSERT INTO `tbl_usuarios` (`usuario`, `pswd`, `name`, `email`, `active`, `role`, `date_insert`, `supervisor`) 
+VALUES ('samuel', '90cc33a41b541af2c1964e3e10a46088cbdedf63031efaa35d588a698c91193f', 'Samuel Gonzalez', 'benja1715@gmail.com', '1', 'supervisor', current_timestamp(), 'samuel');
+
+INSERT INTO `tbl_usuarios` (`usuario`, `pswd`, `name`, `email`, `active`, `role`, `date_insert`, `supervisor`) 
+VALUES ('benjamin', '8ee9938e4b960a50540f1ca9299facc5a5f342d0848b402c322fd14592e4bc32', 'Benjamin Gonzalez', 'benja1715@gmail.com', '1', 'usuario', current_timestamp(), 'samuel');
+
+INSERT INTO `tbl_usuarios` (`usuario`, `pswd`, `name`, `email`, `active`, `role`, `date_insert`, `supervisor`) 
+VALUES ('martin', 'b6f8d434a847fb0f0c1a8d9b936b8ca952e224f205a55f4ba9b2c20f88fdc9e7', 'Martin Gonzalez', 'benja1715@gmail.com', '1', 'usuario', current_timestamp(), 'samuel');
