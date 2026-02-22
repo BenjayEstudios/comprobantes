@@ -21,7 +21,7 @@ async function initCamera() {
         video.srcObject = stream;
     } catch (err) {
         console.error("Error de cámara:", err);
-        alert("No se pudo acceder a la cámara. Revisa los permisos.");
+        // alert("No se pudo acceder a la cámara. Revisa los permisos.");
     }
 }
 
@@ -73,35 +73,71 @@ const anElement = new AutoNumeric('#precio', {
     unformatOnSubmit: true // Ayuda a obtener el valor limpio
 });
 
-// 2. Modificación en la lógica de Registro Final
+// 2. Modificación en la lógica de Registro Final con SweetAlert2
 btnRegistrar.addEventListener('click', () => {
     const nombre = document.getElementById('nombre').value.trim();
-    
-    // OBTENER EL VALOR LIMPIO (Solo números)
-    // .getNumber() devuelve el valor como float/int directamente
     const precioLimpio = anElement.getNumber(); 
 
+    // Validaciones con Toast (notificaciones rápidas)
     if (!currentFileData) {
-        alert("⚠️ Debes capturar o adjuntar un documento primero.");
-        return;
-    }
-    if (!nombre || precioLimpio <= 0) {
-        alert("⚠️ Por favor, ingresa el nombre y un precio válido.");
+        Swal.fire({
+            icon: 'warning',
+            title: 'Falta el documento',
+            text: 'Debes capturar o adjuntar una foto primero.',
+            background: '#0f172a', // Tu color bg-dark
+            color: '#f8fafc',
+            confirmButtonColor: '#7000ff'
+        });
         return;
     }
 
-    // Confirmación con formato bonito para el usuario
-    const precioFormateado = anElement.getFormatted();
-    if (confirm(`¿Estás seguro de registrar esta factura por ${precioFormateado}?`)) {
-        enviarFactura(nombre, precioLimpio);
+    if (!nombre || precioLimpio <= 0) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Datos incompletos',
+            text: 'Por favor, ingresa una descripción y un precio válido.',
+            background: '#0f172a',
+            color: '#f8fafc',
+            confirmButtonColor: '#7000ff'
+        });
+        return;
     }
+
+    // Modal de Confirmación Estilizado
+    const precioFormateado = anElement.getFormatted();
+    
+    Swal.fire({
+        title: '¿Confirmar Registro?',
+        html: `Vas a registrar: <b>${nombre}</b><br>Por un monto de: <span style="color: #00f2fe; font-size: 1.2rem; font-weight: bold;">${precioFormateado}</span>`,
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#22c55e',
+        cancelButtonColor: '#ef4444',
+        confirmButtonText: 'Sí, registrar ahora',
+        cancelButtonText: 'Cancelar',
+        background: '#0f172a',
+        color: '#f8fafc',
+        backdrop: `rgba(0, 242, 254, 0.1)` // Un ligero tinte cian al fondo
+    }).then((result) => {
+        if (result.isConfirmed) {
+            enviarFactura(nombre, precioLimpio);
+        }
+    });
 });
 
-// Conexión con guardar_comprobante.php
+// Conexión con guardar_comprobante.php mejorada
 async function enviarFactura(nombre, precio) {
-    const btnTextoOriginal = btnRegistrar.innerHTML;
-    btnRegistrar.disabled = true;
-    btnRegistrar.innerHTML = "Procesando...";
+    // Spinner de carga bloqueando la pantalla para evitar doble clic
+    Swal.fire({
+        title: 'Procesando...',
+        text: 'Guardando factura en el servidor',
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading();
+        },
+        background: '#0f172a',
+        color: '#f8fafc'
+    });
 
     const formData = new FormData();
     formData.append('imagen', currentFileData);
@@ -117,19 +153,35 @@ async function enviarFactura(nombre, precio) {
         const result = await response.json();
 
         if (result.success) {
-            alert("✅ " + result.mensaje);
-            // Limpiar formulario o redirigir
-            window.location.reload(); 
+            Swal.fire({
+                icon: 'success',
+                title: '¡Registrado!',
+                text: result.mensaje,
+                background: '#0f172a',
+                color: '#f8fafc',
+                confirmButtonColor: '#00f2fe',
+                timer: 2000,
+                showConfirmButton: false
+            }).then(() => {
+                window.location.reload(); 
+            });
         } else {
-            alert("❌ Error: " + result.mensaje);
-            btnRegistrar.disabled = false;
-            btnRegistrar.innerHTML = btnTextoOriginal;
+            Swal.fire({
+                icon: 'error',
+                title: 'Error en el servidor',
+                text: result.mensaje,
+                background: '#0f172a',
+                color: '#f8fafc'
+            });
         }
     } catch (error) {
-        console.error("Error en la petición:", error);
-        alert("❌ Error de conexión con el servidor.");
-        btnRegistrar.disabled = false;
-        btnRegistrar.innerHTML = btnTextoOriginal;
+        Swal.fire({
+            icon: 'error',
+            title: 'Error de conexión',
+            text: 'No se pudo contactar con el servidor. Revisa tu internet.',
+            background: '#0f172a',
+            color: '#f8fafc'
+        });
     }
 }
 

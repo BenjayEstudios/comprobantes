@@ -1,0 +1,79 @@
+/* Heredamos tus variables de la otra hoja */
+:root {
+    --primary: #00f2fe;
+    --secondary: #7000ff;
+    --bg-dark: #0f172a;
+    --card-bg: rgba(255, 255, 255, 0.05);
+    --text-light: #f8fafc;
+}
+
+/* Card de resumen superior */
+.summary-card {
+    background: linear-gradient(135deg, rgba(0, 242, 254, 0.1), rgba(112, 0, 255, 0.1));
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 20px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+}
+
+/* Estilo de cada fila del historial */
+.history-item {
+    background: var(--card-bg);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: 0.3s ease;
+}
+
+.history-item:hover {
+    border-color: var(--primary);
+    transform: translateX(5px);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.item-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.item-name {
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: var(--text-light);
+}
+
+.item-date {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.item-price {
+    color: var(--primary);
+    font-weight: 800;
+    font-size: 1.2rem;
+    text-shadow: 0 0 10px rgba(0, 242, 254, 0.3);
+}
+
+/* Botón PDF circular */
+.btn-pdf {
+    background: rgba(239, 68, 68, 0.15); /* Rojo tenue */
+    color: #ef4444;
+    border: 1px solid #ef4444;
+    width: 45px;
+    height: 45px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s;
+}
+
+.btn-pdf:hover {
+    background: #ef4444;
+    color: white;
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.5);
+}

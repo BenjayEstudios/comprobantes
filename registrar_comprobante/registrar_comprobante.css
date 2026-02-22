@@ -1,6 +1,7 @@
 :root {
     --primary: #00f2fe; /* Cian neón */
     --secondary: #7000ff; /* Púrpura neón */
+    --success: #22c55e;
     --bg-dark: #0f172a;
     --text-light: #f8fafc;
     --neon-glow: 0 0 15px rgba(0, 242, 254, 0.4);
@@ -10,6 +11,9 @@ body {
     background-color: var(--bg-dark);
     color: var(--text-light);
     font-family: 'Segoe UI', sans-serif;
+    min-height: 100vh;
+    margin: 0;
+    padding-bottom: 120px; /* Espacio para que el botón no tape el contenido */
 }
 
 .logo span {
@@ -17,37 +21,45 @@ body {
     text-shadow: var(--neon-glow);
 }
 
-/* Estilo para Inputs */
+/* --- CONTENEDOR INPUTS --- */
+.inputs-container {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 15px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 20px;
+}
+
 .custom-input {
-    background: rgba(255, 255, 255, 0.05) !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    color: white !important;
-    border-radius: 10px;
+    background: rgba(15, 23, 42, 0.8) !important;
+    border: 2px solid rgba(255, 255, 255, 0.1) !important;
+    color: #fff !important;
+    border-radius: 12px;
+    padding: 12px;
 }
 
 .custom-input:focus {
     border-color: var(--primary) !important;
-    box-shadow: 0 0 8px rgba(0, 242, 254, 0.3);
+    box-shadow: 0 0 15px rgba(0, 242, 254, 0.4);
 }
 
-.input-group-text {
-    background: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: var(--primary);
+#precio {
+    color: var(--primary) !important;
+    font-weight: bold;
 }
 
-/* Contenedor de Cámara */
+/* --- CÁMARA --- */
 .camera-box {
     position: relative;
     width: 100%;
     max-width: 500px;
     height: 350px;
     background: #000;
-    border-radius: 20px;
+    border-radius: 25px;
     overflow: hidden;
     border: 2px solid var(--primary);
     box-shadow: var(--neon-glow);
-    margin: 10px auto 25px auto;
+    margin: 0 auto 20px auto;
 }
 
 #video, #img-preview {
@@ -56,46 +68,6 @@ body {
     object-fit: cover;
 }
 
-.preview-hidden {
-    display: none;
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: #000;
-}
-
-/* Botones Neon */
-.btn-neon {
-    border: none;
-    padding: 12px 25px;
-    border-radius: 12px;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    transition: 0.3s;
-    text-transform: uppercase;
-    font-size: 0.85rem;
-}
-
-.btn-capture {
-    background: var(--primary);
-    color: #000;
-    box-shadow: 0 0 15px rgba(0, 242, 254, 0.5);
-}
-
-.btn-attach {
-    background: transparent;
-    color: var(--secondary);
-    border: 2px solid var(--secondary);
-    box-shadow: 0 0 10px rgba(112, 0, 255, 0.3);
-}
-
-.btn-neon:hover {
-    transform: translateY(-2px);
-    filter: brightness(1.2);
-}
-
-/* Animación de escaneo */
 .scan-line {
     position: absolute;
     top: 0; left: 0;
@@ -111,14 +83,7 @@ body {
     100% { top: 100%; }
 }
 
-.btn-close-custom {
-    position: absolute;
-    top: 10px; right: 10px;
-    background: red; color: white; border: none;
-    border-radius: 50%; width: 30px; height: 30px;
-}
-
-
+/* --- CONTROLES DE DISPARO --- */
 .controls-row {
     display: flex;
     align-items: center;
@@ -126,95 +91,69 @@ body {
     position: relative;
     max-width: 500px;
     margin: 0 auto;
+    height: 80px;
 }
 
-/* Botón Adjuntar a la izquierda */
 .btn-icon-only {
     position: absolute;
-    left: 10px;
+    left: 20px;
     background: transparent;
-    border: 1px solid var(--secondary);
+    border: 2px solid var(--secondary);
     color: var(--secondary);
     border-radius: 50%;
-    width: 45px;
-    height: 45px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: 50px; height: 50px;
+    display: flex; align-items: center; justify-content: center;
     transition: 0.3s;
 }
 
-/* Botón Cámara al centro */
 .btn-capture {
-    width: 70px;
-    height: 70px;
+    width: 75px; height: 75px;
     border-radius: 50% !important;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     background: var(--primary);
-    box-shadow: 0 0 20px rgba(0, 242, 254, 0.6);
+    color: #000;
+    border: none;
+    box-shadow: 0 0 25px rgba(0, 242, 254, 0.6);
+    display: flex; align-items: center; justify-content: center;
+    transition: 0.3s;
 }
 
-/* Botón Registrar debajo */
-.btn-registrar-final {
+.btn-capture:active { transform: scale(0.9); }
+
+/* --- BOTÓN REGISTRAR (EL "SUPER" BOTÓN) --- */
+.btn-super-container {
+    position: fixed;
+    bottom: 90px; /* Ajustado para que quede arriba del menú inferior */
+    left: 0;
     width: 100%;
-    max-width: 400px;
+    display: flex;
+    justify-content: center;
+    padding: 0 25px;
+    z-index: 9999;
+    pointer-events: none; /* Permite clics a través del contenedor */
+}
+
+.btn-registrar-final {
+    pointer-events: auto; /* El botón sí recibe clics */
+    width: 100%;
+    max-width: 350px;
     background: linear-gradient(45deg, #22c55e, #16a34a);
     color: white;
     border: none;
-    padding: 15px;
-    border-radius: 15px;
+    padding: 16px;
+    border-radius: 50px;
     font-weight: bold;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    box-shadow: 0 4px 15px rgba(34, 197, 94, 0.4);
-    margin-top: 10px;
-    display: inline-flex;
+    letter-spacing: 1.5px;
+    box-shadow: 0 8px 20px rgba(22, 163, 74, 0.4);
+    display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    transition: 0.3s;
+    gap: 12px;
+    transition: all 0.3s ease;
 }
 
 .btn-registrar-final:active {
-    transform: scale(0.95);
+    transform: scale(0.96);
 }
 
-/* ... (mantenemos lo anterior y añadimos/modificamos esto) ... */
-
-.custom-input {
-    background: rgba(15, 23, 42, 0.8) !important; /* Más oscuro para contraste */
-    border: 2px solid rgba(255, 255, 255, 0.2) !important;
-    color: #fff !important;
-    border-radius: 12px;
-    padding: 12px 15px;
-    font-size: 1.1rem; /* Más grande */
-    font-weight: 500;
-}
-
-.custom-input:focus {
-    border-color: var(--primary) !important;
-    box-shadow: 0 0 15px rgba(0, 242, 254, 0.4);
-    outline: none;
-}
-
-/* Estilo específico para resaltar etiquetas o placeholders */
-::placeholder {
-    color: rgba(255, 255, 255, 0.5) !important;
-}
-
-#precio {
-    color: var(--primary) !important; /* Precio en color neón */
-    font-weight: bold;
-    font-size: 1.2rem;
-}
-
-/* Contenedor de inputs con más presencia */
-.inputs-container {
-    background: rgba(255, 255, 255, 0.03);
-    padding: 20px;
-    border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    margin-bottom: 20px;
-}
+.preview-hidden { display: none; }
