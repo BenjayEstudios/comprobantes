@@ -1,0 +1,220 @@
+:root {
+    --primary: #00f2fe; /* Cian neón */
+    --secondary: #7000ff; /* Púrpura neón */
+    --bg-dark: #0f172a;
+    --text-light: #f8fafc;
+    --neon-glow: 0 0 15px rgba(0, 242, 254, 0.4);
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.logo span {
+    color: var(--primary);
+    text-shadow: var(--neon-glow);
+}
+
+/* Estilo para Inputs */
+.custom-input {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: white !important;
+    border-radius: 10px;
+}
+
+.custom-input:focus {
+    border-color: var(--primary) !important;
+    box-shadow: 0 0 8px rgba(0, 242, 254, 0.3);
+}
+
+.input-group-text {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--primary);
+}
+
+/* Contenedor de Cámara */
+.camera-box {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    height: 350px;
+    background: #000;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 2px solid var(--primary);
+    box-shadow: var(--neon-glow);
+    margin: 10px auto 25px auto;
+}
+
+#video, #img-preview {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.preview-hidden {
+    display: none;
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: #000;
+}
+
+/* Botones Neon */
+.btn-neon {
+    border: none;
+    padding: 12px 25px;
+    border-radius: 12px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: 0.3s;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+}
+
+.btn-capture {
+    background: var(--primary);
+    color: #000;
+    box-shadow: 0 0 15px rgba(0, 242, 254, 0.5);
+}
+
+.btn-attach {
+    background: transparent;
+    color: var(--secondary);
+    border: 2px solid var(--secondary);
+    box-shadow: 0 0 10px rgba(112, 0, 255, 0.3);
+}
+
+.btn-neon:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.2);
+}
+
+/* Animación de escaneo */
+.scan-line {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 2px;
+    background: var(--primary);
+    box-shadow: 0 0 15px var(--primary);
+    animation: scan 2.5s linear infinite;
+    z-index: 10;
+}
+
+@keyframes scan {
+    0% { top: 0%; }
+    100% { top: 100%; }
+}
+
+.btn-close-custom {
+    position: absolute;
+    top: 10px; right: 10px;
+    background: red; color: white; border: none;
+    border-radius: 50%; width: 30px; height: 30px;
+}
+
+
+.controls-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+/* Botón Adjuntar a la izquierda */
+.btn-icon-only {
+    position: absolute;
+    left: 10px;
+    background: transparent;
+    border: 1px solid var(--secondary);
+    color: var(--secondary);
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s;
+}
+
+/* Botón Cámara al centro */
+.btn-capture {
+    width: 70px;
+    height: 70px;
+    border-radius: 50% !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--primary);
+    box-shadow: 0 0 20px rgba(0, 242, 254, 0.6);
+}
+
+/* Botón Registrar debajo */
+.btn-registrar-final {
+    width: 100%;
+    max-width: 400px;
+    background: linear-gradient(45deg, #22c55e, #16a34a);
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 15px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 15px rgba(34, 197, 94, 0.4);
+    margin-top: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: 0.3s;
+}
+
+.btn-registrar-final:active {
+    transform: scale(0.95);
+}
+
+/* ... (mantenemos lo anterior y añadimos/modificamos esto) ... */
+
+.custom-input {
+    background: rgba(15, 23, 42, 0.8) !important; /* Más oscuro para contraste */
+    border: 2px solid rgba(255, 255, 255, 0.2) !important;
+    color: #fff !important;
+    border-radius: 12px;
+    padding: 12px 15px;
+    font-size: 1.1rem; /* Más grande */
+    font-weight: 500;
+}
+
+.custom-input:focus {
+    border-color: var(--primary) !important;
+    box-shadow: 0 0 15px rgba(0, 242, 254, 0.4);
+    outline: none;
+}
+
+/* Estilo específico para resaltar etiquetas o placeholders */
+::placeholder {
+    color: rgba(255, 255, 255, 0.5) !important;
+}
+
+#precio {
+    color: var(--primary) !important; /* Precio en color neón */
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+/* Contenedor de inputs con más presencia */
+.inputs-container {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 20px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 20px;
+}

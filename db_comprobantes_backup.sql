@@ -68,9 +68,16 @@ CHARACTER SET utf8mb4,
 COLLATE utf8mb4_general_ci,
 ROW_FORMAT = DYNAMIC;
 
---
--- Create foreign key
---
+CREATE TABLE tbl_comprobante (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    precio INT(10) NOT NULL,
+    documento LONGBLOB,           -- El archivo en sí
+    estado INT(1) DEFAULT 1,
+    digitador VARCHAR(50),
+    fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    fecha_modificacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
 
 
 --
