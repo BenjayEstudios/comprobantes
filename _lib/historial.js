@@ -2,39 +2,52 @@ document.addEventListener('DOMContentLoaded', () => {
     cargarHistorial();
 });
 
-function visualizarComprobante(base64Data) {
+function visualizarDocumento(base64Data) {
     if (!base64Data) {
-        Swal.fire('Error', 'No hay documento disponible', 'error');
+        Swal.fire('Error', 'No hay archivo disponible', 'error');
         return;
     }
 
-    try {
-        // 1. Limpiar el prefijo si es que viene con "data:application/pdf;base64,"
-        const base64SinPrefijo = base64Data.includes(',') ? base64Data.split(',')[1] : base64Data;
+    // 1. Identificar el tipo de contenido
+    // Generalmente el base64 viene como: "data:image/jpeg;base64,/9j/..."
+    const matches = base64Data.match(/^data:([^;]+);base64,(.*)$/);
+    
+    let mimeType = 'application/pdf'; // Por defecto
+    let base64Pure = base64Data;
 
-        // 2. Convertir Base64 a bytes
-        const byteCharacters = atob(base64SinPrefijo);
-        const byteNumbers = new Array(byteCharacters.length);
-        for (let i = 0; i < byteCharacters.length; i++) {
-            byteNumbers[i] = byteCharacters.charCodeAt(i);
+    if (matches && matches.length === 3) {
+        mimeType = matches[1];
+        base64Pure = matches[2];
+    }
+
+    // 2. Procesar según el tipo
+    if (mimeType.includes('image')) {
+        // --- CASO IMAGEN (Cámara/Fotos) ---
+        const win = window.open("");
+        win.document.write(`
+            <html>
+                <body style="margin:0; display:flex; justify-content:center; align-items:center; background:#333;">
+                    <img src="${base64Data}" style="max-width:100%; max-height:100vh; shadow: 0 0 20px black;">
+                </body>
+            </html>
+        `);
+    } else {
+        // --- CASO PDF ---
+        try {
+            const byteCharacters = atob(base64Pure);
+            const byteNumbers = new Array(byteCharacters.length);
+            for (let i = 0; i < byteCharacters.length; i++) {
+                byteNumbers[i] = byteCharacters.charCodeAt(i);
+            }
+            const byteArray = new Uint8Array(byteNumbers);
+            const blob = new Blob([byteArray], { type: 'application/pdf' });
+            const fileURL = URL.createObjectURL(blob);
+            window.open(fileURL, '_blank');
+        } catch (e) {
+            Swal.fire('Error', 'No se pudo procesar el PDF', 'error');
         }
-        const byteArray = new Uint8Array(byteNumbers);
-
-        // 3. Crear el Blob con el tipo MIME correcto
-        const blob = new Blob([byteArray], { type: 'application/pdf' });
-
-        // 4. Crear una URL temporal para ese objeto
-        const fileURL = URL.createObjectURL(blob);
-
-        // 5. Abrir en pestaña nueva
-        window.open(fileURL, '_blank');
-
-    } catch (error) {
-        console.error("Error al decodificar el PDF:", error);
-        Swal.fire('Error', 'El formato del documento no es válido', 'error');
     }
 }
-
 async function cargarHistorial() {
     const lista = document.getElementById('lista-historial');
     const totalDisplay = document.getElementById('total-general');
