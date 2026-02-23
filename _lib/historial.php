@@ -13,32 +13,44 @@ $name    = $_SESSION['name']    ?? null;
 $opciones = array();
 
 if($role){
-    // 1. CORRECCIÓN SQL: Cambiamos "role_access=$role" por "?" para usar bind_param
-    // 2. RECOMENDACIÓN: Usamos FIND_IN_SET si un menú puede pertenecer a varios roles (ej: 'admin,user')
-    $sql = "SELECT nombre, precio, documento, fecha_registro 
+    $query = "SELECT SUM(precio) as total FROM tbl_comprobante";
+    $result2 = mysqli_query($conn, $query);
+
+    // No necesitas 'while' porque SUM() solo genera 1 fila
+    $row2 = mysqli_fetch_assoc($result2);
+    $totalAcumulado = $row2['total'] ?? 0;
+
+
+    $sql = "SELECT id, nombre, precio, fecha_registro 
     FROM tbl_comprobante";
-    
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $role);
     $stmt->execute();
     $result = $stmt->get_result();
 
     if($result){
         while($row = $result->fetch_assoc()){
             $opciones[] = [
+                'id' => $row['id'],
                 'nombre'  => $row['nombre'],
                 'precio'  => $row['precio'],
-                'documento' => $row['documento'],
-                'url' => $row['fecha_registro']
+                'fecha' => $row['fecha_registro']
             ];
         }
+
+        $var = 'bien';
+    }else{
+        $var = 'mal';
     }
+    
+}else{
+    $var = 'mal';
 }
 $response = [
     'usuario' => $usuario,
     'role'    => $role,
     'name'    => $name,
-    'datos'    => $opciones  // 3. CORRECCIÓN: Quitamos los [] para mandar el array completo, no uno vacío.
+    'total'   => $totalAcumulado,
+    'datos'  => $opciones
 ];
 
 ob_clean();

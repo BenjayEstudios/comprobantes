@@ -12,11 +12,11 @@ $opciones = array();
 if($role){
     // 1. CORRECCIÓN SQL: Cambiamos "role_access=$role" por "?" para usar bind_param
     // 2. RECOMENDACIÓN: Usamos FIND_IN_SET si un menú puede pertenecer a varios roles (ej: 'admin,user')
-    $sql = "SELECT icon, link, label FROM tbl_menu WHERE FIND_IN_SET(?, role_access) AND active=1 ORDER BY orden ASC";
+    $sql = "SELECT icon, link, label FROM tbl_menu WHERE role_access='$role' AND active=1 ORDER BY orden ASC";
     
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $role);
     $stmt->execute();
+    
     $result = $stmt->get_result();
 
     if($result){

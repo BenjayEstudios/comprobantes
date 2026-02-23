@@ -28,7 +28,7 @@ async function cargarHistorial() {
         // 4. Actualizar el Total Registrado
         if (totalDisplay) {
             // Usamos el total que ya viene calculado desde el PHP
-            // totalDisplay.innerText = `$ ${data.total.toLocaleString('es-CL')}`;
+            totalDisplay.innerText = `$ ${data.total.toLocaleString('es-CL')}`;
         }
 
         // 5. Validar si hay registros en la tabla tbl_comprobante
@@ -54,7 +54,7 @@ async function cargarHistorial() {
                     <span class="item-date">${item.fecha}</span>
                     <span class="item-price">$ ${item.precio.toLocaleString('es-CL')}</span>
                 </div>
-                <a href="${item.url}" target="_blank" class="btn-pdf" title="Ver Comprobante">
+                <a href="${item.id}" target="_blank" class="btn-pdf" title="Ver Comprobante">
                     <i data-lucide="file-text"></i>
                 </a>
             `;

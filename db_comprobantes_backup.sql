@@ -91,3 +91,15 @@ VALUES ('benjamin', '8ee9938e4b960a50540f1ca9299facc5a5f342d0848b402c322fd14592e
 
 INSERT INTO `tbl_usuarios` (`usuario`, `pswd`, `name`, `email`, `active`, `role`, `date_insert`, `supervisor`) 
 VALUES ('martin', 'b6f8d434a847fb0f0c1a8d9b936b8ca952e224f205a55f4ba9b2c20f88fdc9e7', 'Martin Gonzalez', 'benja1715@gmail.com', '1', 'usuario', current_timestamp(), 'samuel');
+
+--
+-- INSERTS MENU
+-- 
+INSERT INTO `tbl_menu` ( `label`, `icon`, `link`, `orden`, `role_access` ) 
+VALUES ('Listado Comprobantes', 'history', '../historial/', 1, 'usuario');
+
+INSERT INTO `tbl_menu` ( `label`, `icon`, `link`, `orden`, `role_access` ) 
+VALUES ('Registrar', 'receipt', '../registrar_comprobante/', 2, 'usuario');
+
+INSERT INTO `tbl_menu` ( `label`, `icon`, `link`, `orden`, `role_access` ) 
+VALUES ('Salir', 'log-out', '../index.html', 3, 'usuario');
