@@ -8,33 +8,27 @@ function visualizarDocumento(base64Data) {
         return;
     }
 
-    // 1. Identificar el tipo de contenido
-    // Generalmente el base64 viene como: "data:image/jpeg;base64,/9j/..."
+    // 1. Extraer el MIME Type
     const matches = base64Data.match(/^data:([^;]+);base64,(.*)$/);
-    
-    let mimeType = 'application/pdf'; // Por defecto
-    let base64Pure = base64Data;
+    const mimeType = matches ? matches[1] : 'application/pdf';
 
-    if (matches && matches.length === 3) {
-        mimeType = matches[1];
-        base64Pure = matches[2];
-    }
-
-    // 2. Procesar según el tipo
-    if (mimeType.includes('image')) {
-        // --- CASO IMAGEN (Cámara/Fotos) ---
-        const win = window.open("");
-        win.document.write(`
-            <html>
-                <body style="margin:0; display:flex; justify-content:center; align-items:center; background:#333;">
-                    <img src="${base64Data}" style="max-width:100%; max-height:100vh; shadow: 0 0 20px black;">
-                </body>
-            </html>
-        `);
-    } else {
-        // --- CASO PDF ---
+    // 2. Si es IMAGEN, la mostramos en un Modal (Perfecto para celulares)
+    if (mimeType.startsWith('image/')) {
+        Swal.fire({
+            title: 'Visualización de Imagen',
+            imageUrl: base64Data,
+            imageAlt: 'Comprobante',
+            width: '90%',
+            confirmButtonText: 'Cerrar',
+            confirmButtonColor: '#3085d6',
+            // Esto permite que en el celular se vea grande y cómodo
+        });
+    } 
+    // 3. Si es PDF, usamos el método del Blob
+    else {
         try {
-            const byteCharacters = atob(base64Pure);
+            const b64 = matches ? matches[2] : base64Data;
+            const byteCharacters = atob(b64);
             const byteNumbers = new Array(byteCharacters.length);
             for (let i = 0; i < byteCharacters.length; i++) {
                 byteNumbers[i] = byteCharacters.charCodeAt(i);
@@ -42,9 +36,10 @@ function visualizarDocumento(base64Data) {
             const byteArray = new Uint8Array(byteNumbers);
             const blob = new Blob([byteArray], { type: 'application/pdf' });
             const fileURL = URL.createObjectURL(blob);
+            
             window.open(fileURL, '_blank');
         } catch (e) {
-            Swal.fire('Error', 'No se pudo procesar el PDF', 'error');
+            Swal.fire('Error', 'No se pudo generar el visor de PDF', 'error');
         }
     }
 }
@@ -100,7 +95,7 @@ async function cargarHistorial() {
                     <span class="item-date">${item.fecha}</span>
                     <span class="item-price">$ ${item.precio.toLocaleString('es-CL')}</span>
                 </div>
-                <button onclick="visualizarComprobante('${item.documento}')" class="btn-pdf">
+                <button onclick="visualizarDocumento('${item.documento}')" class="btn-pdf">
                     <i data-lucide="eye"></i>
                 </button>
             `;
