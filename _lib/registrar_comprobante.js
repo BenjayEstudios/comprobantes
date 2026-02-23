@@ -10,10 +10,15 @@ const btnRemove = document.getElementById('btn-remove-file');
 
 let currentFileData = null;
 let stream = null;
+var std = 0;
 
 // Iniciar Cámara
 async function initCamera() {
     try {
+
+        if (std == 0) {
+
+        }
         stream = await navigator.mediaDevices.getUserMedia({
             video: { facingMode: "environment", width: 1280, height: 720 },
             audio: false
@@ -92,16 +97,16 @@ btnRegistrar.addEventListener('click', () => {
     }
 
     if (!nombre || precioLimpio <= 0) {
-        Swal.fire({
-            icon: 'error',
-            title: 'Datos incompletos',
-            text: 'Por favor, ingresa una descripción y un precio válido.',
-            background: '#0f172a',
-            color: '#f8fafc',
-            confirmButtonColor: '#7000ff'
-        });
-        return;
-    }
+        // Swal.fire({
+        //     icon: 'error',
+        //     title: 'Datos incompletos',
+        //     text: 'Por favor, ingresa una descripción y un precio válido.',
+        //     background: '#0f172a',
+        //     color: '#f8fafc',
+        //     confirmButtonColor: '#7000ff'
+        // });
+        // return;
+    } // opcional mientras
 
     // Modal de Confirmación Estilizado
     const precioFormateado = anElement.getFormatted();

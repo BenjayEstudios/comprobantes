@@ -2,6 +2,39 @@ document.addEventListener('DOMContentLoaded', () => {
     cargarHistorial();
 });
 
+function visualizarComprobante(base64Data) {
+    if (!base64Data) {
+        Swal.fire('Error', 'No hay documento disponible', 'error');
+        return;
+    }
+
+    try {
+        // 1. Limpiar el prefijo si es que viene con "data:application/pdf;base64,"
+        const base64SinPrefijo = base64Data.includes(',') ? base64Data.split(',')[1] : base64Data;
+
+        // 2. Convertir Base64 a bytes
+        const byteCharacters = atob(base64SinPrefijo);
+        const byteNumbers = new Array(byteCharacters.length);
+        for (let i = 0; i < byteCharacters.length; i++) {
+            byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        const byteArray = new Uint8Array(byteNumbers);
+
+        // 3. Crear el Blob con el tipo MIME correcto
+        const blob = new Blob([byteArray], { type: 'application/pdf' });
+
+        // 4. Crear una URL temporal para ese objeto
+        const fileURL = URL.createObjectURL(blob);
+
+        // 5. Abrir en pestaña nueva
+        window.open(fileURL, '_blank');
+
+    } catch (error) {
+        console.error("Error al decodificar el PDF:", error);
+        Swal.fire('Error', 'El formato del documento no es válido', 'error');
+    }
+}
+
 async function cargarHistorial() {
     const lista = document.getElementById('lista-historial');
     const totalDisplay = document.getElementById('total-general');
@@ -54,9 +87,9 @@ async function cargarHistorial() {
                     <span class="item-date">${item.fecha}</span>
                     <span class="item-price">$ ${item.precio.toLocaleString('es-CL')}</span>
                 </div>
-                <a href="${item.id}" target="_blank" class="btn-pdf" title="Ver Comprobante">
-                    <i data-lucide="file-text"></i>
-                </a>
+                <button onclick="visualizarComprobante('${item.documento}')" class="btn-pdf">
+                    <i data-lucide="eye"></i>
+                </button>
             `;
             lista.appendChild(card);
         });

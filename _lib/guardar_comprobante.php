@@ -21,18 +21,14 @@ if (isset($_POST['imagen'])) {
     $partes = explode(',', $imgRaw);
     $imgData = count($partes) > 1 ? $partes[1] : $partes[0];
     $binario = base64_decode($imgData);
-    // 1. Limpiar el string Base64 (quitar el encabezado de data:image)
-    // $imgData = str_replace('data:image/png;base64,', '', $imgRaw);
-    // $imgData = str_replace(' ', '+', $imgData);
-    // $binario = base64_decode($imgData);
 
-    // 2. Preparar SQL (Usamos 's' para el blob ya que enviamos los datos binarios)
+
     $sql = "INSERT INTO tbl_comprobante (nombre, precio, documento, digitador) VALUES (?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
     
     // 's' para strings, 'd' para decimal/double, 'b' para blob
     // Nota: send_long_data es mejor para archivos grandes, pero para fotos 720p bind_param funciona bien.
-    $stmt->bind_param("sdss", $nombre, $precio, $binario, $digitador);
+    $stmt->bind_param("sdss", $nombre, $precio, $imgRaw, $digitador);
 
     if ($stmt->execute()) {
         $response['success'] = true;

@@ -72,7 +72,7 @@ CREATE TABLE tbl_comprobante (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
     precio INT(10) NOT NULL,
-    documento LONGBLOB,           -- El archivo en sí
+    documento LONGTEXT,           -- El archivo en sí
     estado INT(1) DEFAULT 1,
     digitador VARCHAR(50),
     fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

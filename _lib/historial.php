@@ -21,7 +21,7 @@ if($role){
     $totalAcumulado = $row2['total'] ?? 0;
 
 
-    $sql = "SELECT id, nombre, precio, fecha_registro 
+    $sql = "SELECT documento, nombre, precio, fecha_registro 
     FROM tbl_comprobante";
     $stmt = $conn->prepare($sql);
     $stmt->execute();
@@ -30,7 +30,7 @@ if($role){
     if($result){
         while($row = $result->fetch_assoc()){
             $opciones[] = [
-                'id' => $row['id'],
+                'documento' => $row['documento'],
                 'nombre'  => $row['nombre'],
                 'precio'  => $row['precio'],
                 'fecha' => $row['fecha_registro']
